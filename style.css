@@ -1,0 +1,1627 @@
+/*
+  ============================================================
+  STYLE.CSS — Complete Portfolio Stylesheet
+  ============================================================
+  This file controls ALL visual aspects of the website.
+  CSS = Cascading Style Sheets
+  "Cascading" means styles flow down: parent styles are inherited
+  by children, and more specific rules override less specific ones.
+  ============================================================
+*/
+
+
+/* ============================================================
+   CSS CUSTOM PROPERTIES (CSS Variables)
+   ============================================================
+   Custom properties (also called CSS variables) start with --
+   They're defined in :root so they're available EVERYWHERE.
+   :root targets the <html> element — the highest level.
+   
+   WHY USE VARIABLES?
+   Instead of typing #0a0a0a in 50 places, we type var(--bg-primary).
+   If we want to change the color, we change it in ONE place.
+   ============================================================ */
+:root {
+  /* ---- Color Palette ---- */
+  --bg-primary: #0a0a0a;         /* Almost black — main background */
+  --bg-secondary: #111111;        /* Slightly lighter black — card backgrounds */
+  --bg-tertiary: #1a1a1a;         /* Even lighter — hover states, borders */
+  
+  --text-primary: #e8e8e8;        /* Off-white — main text color */
+  --text-secondary: #888888;      /* Medium grey — less important text */
+  --text-muted: #555555;          /* Dark grey — decorative text */
+  
+  --accent: #ffffff;              /* Pure white — for accents and highlights */
+  --accent-dim: rgba(255,255,255,0.1);  /* Semi-transparent white — subtle effects */
+  --accent-glow: rgba(255,255,255,0.05); /* Very faint white — background glows */
+  
+  --border: rgba(255,255,255,0.08);     /* Very faint border color */
+  --border-hover: rgba(255,255,255,0.2); /* Slightly visible border on hover */
+  
+  /* ---- Typography (Fonts) ---- */
+  --font-body: 'Inter', sans-serif;
+  /*
+    'Inter' is our primary font. If it fails to load,
+    sans-serif tells the browser to use its default sans-serif font.
+  */
+  --font-heading: 'Playfair Display', Georgia, serif;
+  /*
+    'Playfair Display' for headings. Falls back to Georgia,
+    then any serif font. Playfair has a gothic/elegant feel.
+  */
+  
+  /* ---- Spacing ---- */
+  --section-padding: 120px;
+  /* How much vertical space each section gets — big for breathing room */
+  --container-width: 1100px;
+  /* Max width of content — prevents text from stretching too wide on big screens */
+  
+  /* ---- Animation ---- */
+  --transition-fast: 0.2s ease;
+  /* 0.2 seconds with "ease" curve (starts slow, speeds up, slows down) */
+  --transition-smooth: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  /*
+    cubic-bezier defines a CUSTOM speed curve.
+    (0.4, 0, 0.2, 1) is Material Design's standard easing —
+    it feels smooth and natural.
+  */
+}
+
+
+/* ============================================================
+   GLOBAL RESET & BASE STYLES
+   ============================================================
+   Browsers apply DEFAULT styles to elements (margins, padding, etc.)
+   and each browser does it slightly differently.
+   A "reset" removes these defaults so our design is CONSISTENT
+   across Chrome, Firefox, Safari, etc.
+   ============================================================ */
+
+*,
+*::before,
+*::after {
+  /*
+    * = select EVERY element
+    *::before = select every element's ::before pseudo-element
+    *::after = select every element's ::after pseudo-element
+    
+    Pseudo-elements (::before, ::after) are virtual elements CSS can create
+    for decorative purposes without adding HTML.
+  */
+  margin: 0;        /* Remove all default margins */
+  padding: 0;       /* Remove all default padding */
+  box-sizing: border-box;
+  /*
+    CRITICAL: This changes how width is calculated.
+    Without this: width = content only (padding and border are ADDED on top)
+    With this: width = content + padding + border (total stays the same)
+    This prevents elements from being unexpectedly wider than intended.
+  */
+}
+
+html {
+  scroll-behavior: smooth;
+  /*
+    When clicking anchor links (#about, #skills), the page SMOOTHLY scrolls
+    to that section instead of jumping instantly. One line does it all!
+  */
+  font-size: 16px;
+  /*
+    Sets the BASE font size. All "rem" units are relative to this.
+    1rem = 16px, 0.875rem = 14px, 1.5rem = 24px, etc.
+  */
+}
+
+body {
+  font-family: var(--font-body);
+  /*
+    var() reads a CSS variable. This resolves to 'Inter', sans-serif.
+    Sets the default font for ALL text in the body.
+  */
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.7;
+  /*
+    line-height controls spacing between lines of text.
+    1.7 = 1.7 times the font size. Generous spacing improves readability.
+    (1.0 = lines touching, 1.5 = normal, 2.0 = double-spaced)
+  */
+  overflow-x: hidden;
+  /*
+    Hides horizontal scrollbar. Prevents any accidentally-wide elements
+    from creating an ugly sideways scrollbar.
+  */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /*
+    These make fonts render SMOOTHER on Mac/Chrome.
+    -webkit- is for Chrome/Safari, -moz- is for Firefox.
+    These are "vendor prefixes" for non-standard CSS properties.
+  */
+}
+
+a {
+  text-decoration: none;
+  /*
+    Removes the default blue underline from all links.
+    We'll add our own styling.
+  */
+  color: inherit;
+  /*
+    "inherit" means: use the same color as the parent element.
+    Links are blue by default; this makes them match surrounding text.
+  */
+}
+
+ul {
+  list-style: none;
+  /*
+    Removes bullet points from all unordered lists.
+    We don't want bullets in our navigation.
+  */
+}
+
+img {
+  max-width: 100%;
+  /*
+    Images will never be wider than their container.
+    Prevents images from overflowing and breaking layout.
+  */
+  display: block;
+  /*
+    Images are "inline" by default (like text), which can cause
+    a small gap below them. display: block removes that gap.
+  */
+}
+
+
+/* ============================================================
+   SELECTION STYLING
+   ============================================================ */
+::selection {
+  /*
+    ::selection styles the text the user highlights/selects with their mouse.
+    Adds a nice branded feel when users copy text.
+  */
+  background: var(--accent);      /* White background on selected text */
+  color: var(--bg-primary);       /* Black text on selected text */
+}
+
+
+/* ============================================================
+   NAVIGATION BAR
+   ============================================================ */
+#navbar {
+  position: fixed;
+  /*
+    fixed = the nav STAYS at the top of the screen when you scroll.
+    It's "fixed" to the viewport (browser window), not the page.
+  */
+  top: 0;
+  left: 0;
+  width: 100%;
+  /*
+    Stretches the nav across the full width of the screen.
+  */
+  z-index: 1000;
+  /*
+    z-index controls STACKING ORDER (what's in front of what).
+    Higher number = more in front. 1000 ensures the nav is
+    always on top of all other content.
+  */
+  padding: 20px 0;
+  /*
+    20px top/bottom padding, 0 left/right padding.
+    Shorthand: padding: [top/bottom] [left/right]
+  */
+  transition: var(--transition-smooth);
+  /*
+    When padding or background changes (via JavaScript adding/removing
+    a class), it will animate smoothly over 0.4 seconds.
+  */
+  background: transparent;
+  /*
+    Starts with no background — the hero section shows through.
+  */
+}
+
+#navbar.scrolled {
+  /*
+    This class gets ADDED by JavaScript when the user scrolls down.
+    It adds a dark, slightly transparent background.
+  */
+  background: rgba(10, 10, 10, 0.9);
+  /*
+    rgba = Red, Green, Blue, Alpha (opacity).
+    (10,10,10) = almost black. 0.9 = 90% opaque (10% see-through).
+  */
+  padding: 12px 0;
+  /*
+    Shrinks the nav padding when scrolled — it becomes thinner.
+  */
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  /*
+    backdrop-filter: blur() blurs everything BEHIND the element.
+    Creates a "frosted glass" effect. Very modern and premium-looking.
+    -webkit- prefix needed for Safari compatibility.
+  */
+  border-bottom: 1px solid var(--border);
+  /*
+    Adds a subtle line at the bottom of the nav when scrolled.
+  */
+}
+
+.nav-container {
+  max-width: var(--container-width);
+  /*
+    Content won't be wider than 1100px, even on huge monitors.
+  */
+  margin: 0 auto;
+  /*
+    margin: 0 auto means: 0 margin top/bottom, AUTO margin left/right.
+    "auto" on left and right CENTERS the element horizontally.
+    This is the classic way to center a block element.
+  */
+  padding: 0 40px;
+  /*
+    40px padding on left and right, so content doesn't touch screen edges.
+  */
+  display: flex;
+  /*
+    Flexbox! This is the modern way to lay out elements in a row or column.
+    display: flex makes this a "flex container" and its children become
+    "flex items" that can be positioned flexibly.
+  */
+  align-items: center;
+  /*
+    Vertically centers flex items within the container.
+    (In a row layout, align-items = vertical alignment)
+  */
+  justify-content: space-between;
+  /*
+    Pushes items to the far left and far right with space between them.
+    Logo on left, nav links on right.
+  */
+}
+
+.nav-logo {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  /*
+    rem = "root em" — relative to the root (html) font size.
+    1.3rem = 1.3 × 16px = 20.8px
+  */
+  font-weight: 700;
+  letter-spacing: 2px;
+  /*
+    Adds 2px of space between each letter. Creates a refined look.
+  */
+  text-transform: uppercase;
+  /*
+    Converts text to ALL UPPERCASE regardless of how it's typed in HTML.
+  */
+  color: var(--accent);
+  transition: var(--transition-fast);
+}
+
+.logo-bracket {
+  color: var(--text-muted);
+  /*
+    The { } brackets around "Portfolio" are colored grey,
+    creating a code-like aesthetic.
+  */
+  font-weight: 300;
+  /*
+    300 = light weight, making the brackets thinner/more delicate.
+  */
+}
+
+.nav-logo:hover {
+  /*
+    :hover = applies when the user's mouse is over this element.
+  */
+  opacity: 0.7;
+  /*
+    Slightly fades the logo on hover. 1 = fully visible, 0 = invisible.
+  */
+}
+
+/* Hamburger menu button — hidden on desktop, visible on mobile */
+.nav-toggle {
+  display: none;
+  /*
+    Hidden by default (desktop). We'll show it in the mobile media query.
+  */
+  flex-direction: column;
+  /*
+    When shown, arranges the 3 hamburger lines vertically.
+  */
+  gap: 5px;
+  /*
+    gap adds space between flex children. 5px between each line.
+  */
+  background: none;
+  border: none;
+  cursor: pointer;
+  /*
+    cursor: pointer shows a hand icon when hovering, indicating it's clickable.
+  */
+  padding: 5px;
+}
+
+.hamburger-line {
+  width: 25px;
+  height: 2px;
+  background: var(--accent);
+  transition: var(--transition-fast);
+  /*
+    Each line is a thin white rectangle. Together they form ☰.
+    transition makes them animate when the menu opens/closes.
+  */
+}
+
+.nav-links {
+  display: flex;
+  gap: 40px;
+  /*
+    Lays out nav items in a horizontal row with 40px between each.
+  */
+}
+
+.nav-link {
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  transition: var(--transition-fast);
+  position: relative;
+  /*
+    position: relative allows us to position child elements (pseudo-elements)
+    relative to THIS element. Needed for the underline animation.
+  */
+}
+
+.nav-link::after {
+  /*
+    ::after creates a VIRTUAL element after the nav-link's content.
+    We use it as an animated underline.
+  */
+  content: '';
+  /*
+    content is REQUIRED for pseudo-elements. Even if empty, it must exist.
+    Without content: '' the pseudo-element won't render at all.
+  */
+  position: absolute;
+  /*
+    Positions this element relative to its nearest "relative" parent (the nav-link).
+  */
+  bottom: -4px;
+  /*
+    Places it 4px below the text baseline.
+  */
+  left: 0;
+  width: 0;
+  /*
+    Starts at 0 width — the underline is invisible.
+  */
+  height: 1px;
+  background: var(--accent);
+  transition: var(--transition-fast);
+}
+
+.nav-link:hover,
+.nav-link.active {
+  /*
+    Applies to BOTH hovered links AND the link with class "active".
+    The comma means "OR" — select either.
+  */
+  color: var(--accent);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+  /*
+    On hover or when active, the underline expands from 0 to full width.
+    Combined with transition, this creates a smooth underline animation.
+  */
+}
+
+
+/* ============================================================
+   HERO SECTION
+   ============================================================ */
+#hero {
+  min-height: 100vh;
+  /*
+    vh = viewport height. 100vh = the FULL height of the browser window.
+    min-height ensures the hero is AT LEAST this tall (can be taller).
+  */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /*
+    Flexbox centers the hero content both vertically and horizontally.
+    This is the easiest way to center something on screen.
+  */
+  position: relative;
+  /*
+    Needed so the absolute-positioned background effects stay inside the hero.
+  */
+  overflow: hidden;
+  /*
+    Hides any background effect elements that extend beyond the hero's edges.
+  */
+}
+
+.hero-bg-effects {
+  position: absolute;
+  /*
+    Takes this element OUT of normal flow and positions it relative
+    to the hero section. It sits BEHIND the content.
+  */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  /*
+    pointer-events: none means mouse clicks and hovers PASS THROUGH
+    this element to whatever is behind it. The background effects
+    won't interfere with clicking buttons.
+  */
+}
+
+.grid-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  /*
+    Creates a GRID PATTERN using two layered linear gradients:
+    - First gradient: horizontal lines (left to right, then repeating)
+    - Second: 90deg rotated = vertical lines
+    The lines are very faint (0.03 opacity = 3% visible) white.
+  */
+  background-size: 60px 60px;
+  /*
+    Each grid cell is 60×60 pixels. The gradient repeats to fill the area.
+  */
+  opacity: 0.5;
+}
+
+.floating-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /*
+    JavaScript will add small dots here that float around.
+  */
+}
+
+.particle {
+  /*
+    This class is added by JavaScript to each particle element.
+  */
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 50%;
+  /*
+    border-radius: 50% turns a square into a perfect circle.
+    (Each corner is rounded by 50% of the element's size)
+  */
+  opacity: 0;
+  /*
+    Starts invisible. The animation makes it fade in and out.
+  */
+  animation: floatParticle 6s infinite;
+  /*
+    Applies the "floatParticle" keyframe animation:
+    - Duration: 6 seconds
+    - infinite = loops forever
+  */
+}
+
+@keyframes floatParticle {
+  /*
+    @keyframes defines an animation's steps.
+    The browser smoothly transitions between these states.
+  */
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+    /*
+      translateY(0) = no vertical movement.
+      transform moves/rotates/scales elements WITHOUT affecting layout.
+    */
+  }
+  50% {
+    opacity: 0.6;
+    /*
+      At the halfway point, the particle is 60% visible.
+    */
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-100px);
+    /*
+      At the end, it's invisible and has moved 100px UPWARD.
+      (Negative Y = up, positive Y = down)
+    */
+  }
+}
+
+.hero-content {
+  text-align: center;
+  /*
+    Centers all INLINE content (text, spans) within this block.
+    Block elements like <div> need margin: 0 auto to center.
+  */
+  z-index: 1;
+  /*
+    Ensures the content is ABOVE the background effects (which have
+    default z-index of 0 or auto).
+  */
+  position: relative;
+  padding: 0 40px;
+}
+
+.hero-greeting {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease forwards;
+  /*
+    fadeInUp: an animation that moves the element up while fading in.
+    forwards: keeps the FINAL state after animation ends.
+    Without "forwards", the element would jump back to opacity: 0.
+  */
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+    /*
+      Starts 30px below its final position and invisible.
+    */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    /*
+      Ends fully visible at its normal position.
+    */
+  }
+}
+
+.greeting-line {
+  width: 40px;
+  height: 1px;
+  background: var(--text-muted);
+  /*
+    A thin horizontal line decorating the left side of "Hello, I am".
+  */
+}
+
+.greeting-text {
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.hero-name {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 8vw, 6rem);
+  /*
+    clamp() is AMAZING for responsive design!
+    clamp(minimum, preferred, maximum)
+    - Minimum: 2.5rem (40px) — never smaller than this
+    - Preferred: 8vw (8% of viewport width) — scales with screen
+    - Maximum: 6rem (96px) — never bigger than this
+    So the font smoothly scales from 40px to 96px as the screen grows.
+  */
+  font-weight: 900;
+  line-height: 1.1;
+  /*
+    Tighter line height for headings. 1.1 = very close together.
+    Body text uses 1.7 for readability, but big headings need tighter spacing.
+  */
+  color: var(--accent);
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease 0.2s forwards;
+  /*
+    0.2s is the DELAY — this animation starts 0.2 seconds after the page loads.
+    Creates a staggered entrance effect (greeting first, then name).
+  */
+  letter-spacing: -1px;
+  /*
+    NEGATIVE letter-spacing brings letters CLOSER together.
+    Common for large headings to look more refined.
+  */
+}
+
+.hero-title-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 32px;
+  min-height: 40px;
+  /*
+    min-height prevents the layout from "jumping" as the typewriter
+    types text of varying lengths.
+  */
+  opacity: 0;
+  animation: fadeInUp 0.8s ease 0.4s forwards;
+  /* 0.4s delay — appears after the name */
+}
+
+.hero-title-prefix {
+  color: var(--text-muted);
+  font-family: monospace;
+  /*
+    monospace = every character has the same width.
+    Looks like code — reinforcing the developer aesthetic.
+  */
+  font-size: 1.1rem;
+}
+
+.hero-title {
+  font-size: 1.1rem;
+  font-weight: 300;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.cursor {
+  font-weight: 300;
+  color: var(--accent);
+  animation: blink 1s step-end infinite;
+  /*
+    step-end = no smooth transition — the cursor SNAPS between visible
+    and invisible, just like a real text cursor.
+    Without step-end, it would fade in and out smoothly (wrong effect).
+  */
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }   /* Visible at start and end */
+  50% { opacity: 0; }         /* Invisible at halfway point */
+}
+
+.hero-description {
+  max-width: 600px;
+  /*
+    Limits text width for readability. Long lines of text are hard to read.
+    The ideal line length is 50-75 characters.
+  */
+  margin: 0 auto 40px;
+  /*
+    Shorthand: margin: [top] [left/right] [bottom]
+    0 top, auto left/right (centers it), 40px bottom.
+  */
+  font-size: 1rem;
+  color: var(--text-secondary);
+  opacity: 0;
+  animation: fadeInUp 0.8s ease 0.6s forwards;
+}
+
+.hero-cta {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+  /*
+    flex-wrap: wrap allows buttons to stack vertically if the screen
+    is too narrow to fit them side by side.
+  */
+  opacity: 0;
+  animation: fadeInUp 0.8s ease 0.8s forwards;
+}
+
+
+/* ============================================================
+   BUTTONS
+   ============================================================
+   We define a BASE .btn class, then MODIFIER classes
+   (.btn-primary, .btn-outline) for variations.
+   This is the BEM-like approach (Block-Element-Modifier).
+   ============================================================ */
+.btn {
+  display: inline-flex;
+  /*
+    inline-flex = a flex container that sits inline (like text).
+    Regular "flex" takes full width; inline-flex only takes the space it needs.
+  */
+  align-items: center;
+  gap: 10px;
+  padding: 14px 32px;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border: 1px solid var(--border-hover);
+  border-radius: 0;
+  /*
+    border-radius: 0 = sharp square corners. No rounding.
+    This fits the gothic/angular aesthetic.
+  */
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+  /*
+    overflow: hidden clips the hover effect animation inside the button.
+  */
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--bg-primary);
+  border-color: var(--accent);
+  /*
+    White background, black text — the PRIMARY action button.
+    High contrast = draws the most attention.
+  */
+}
+
+.btn-primary:hover {
+  background: transparent;
+  color: var(--accent);
+  /*
+    On hover: background becomes transparent, text becomes white.
+    The border remains — creating an "inverted" effect.
+  */
+  transform: translateY(-2px);
+  /*
+    Lifts the button 2px upward. Creates a subtle "floating" effect.
+  */
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--text-primary);
+  /*
+    No background, just a border — the SECONDARY action button.
+    Less prominent than the primary button.
+  */
+}
+
+.btn-outline:hover {
+  background: var(--accent);
+  color: var(--bg-primary);
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  /*
+    On hover: fills with white — the inverse of the primary button hover.
+  */
+}
+
+.btn-icon {
+  transition: transform var(--transition-fast);
+  /*
+    The arrow icon has its own transition for independent animation.
+  */
+}
+
+.btn:hover .btn-icon {
+  transform: translateX(4px);
+  /*
+    On button hover, the arrow moves 4px to the right.
+    .btn:hover .btn-icon = "when .btn is hovered, target its child .btn-icon"
+    This is a DESCENDANT selector.
+  */
+}
+
+
+/* ============================================================
+   SCROLL INDICATOR (bottom of hero)
+   ============================================================ */
+.scroll-indicator {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  /*
+    left: 50% + translateX(-50%) is the CSS trick for PERFECT horizontal centering.
+    left: 50% puts the LEFT EDGE at center.
+    translateX(-50%) shifts it left by HALF ITS OWN WIDTH.
+    Result: the CENTER of the element is at the center of the parent.
+  */
+  display: flex;
+  flex-direction: column;
+  /*
+    flex-direction: column stacks children vertically (top to bottom).
+    Default is "row" (left to right).
+  */
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease 1.2s forwards;
+}
+
+.scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, var(--accent), transparent);
+  /*
+    A line that fades from white at the top to transparent at the bottom.
+    linear-gradient creates a smooth color transition.
+  */
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+  /*
+    Pulses between 30% and 100% opacity. Gently draws attention.
+  */
+}
+
+.scroll-text {
+  font-size: 0.65rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+
+/* ============================================================
+   SECTION SHARED STYLES
+   ============================================================
+   These styles are shared by About, Skills, Projects, Contact.
+   Consistency is key in good design.
+   ============================================================ */
+section {
+  padding: var(--section-padding) 0;
+  /*
+    Each section gets 120px of vertical padding (top and bottom).
+    This creates generous white space between sections.
+  */
+}
+
+.section-container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.section-header {
+  margin-bottom: 60px;
+}
+
+.section-number {
+  display: block;
+  /*
+    display: block makes an inline element (span) behave like a block,
+    taking its own line.
+  */
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 4px;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+.section-line {
+  width: 60px;
+  height: 1px;
+  background: var(--text-muted);
+  /*
+    A decorative horizontal line under section titles.
+  */
+}
+
+
+/* ============================================================
+   ABOUT SECTION
+   ============================================================ */
+.about-grid {
+  display: grid;
+  /*
+    CSS Grid! A 2D layout system (rows AND columns).
+    Flexbox is 1D (row OR column). Grid is for complex layouts.
+  */
+  grid-template-columns: 1.5fr 1fr;
+  /*
+    Creates 2 columns:
+    - First column: 1.5fr (1.5 "fraction units" of available space)
+    - Second column: 1fr (1 fraction unit)
+    So the first column is 50% wider than the second.
+    "fr" = fraction of the remaining free space.
+  */
+  gap: 60px;
+  /*
+    60px of space between the two columns.
+  */
+  align-items: start;
+  /*
+    Aligns grid items to the TOP of their cell (instead of stretching).
+  */
+}
+
+.about-paragraph {
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+  font-size: 0.95rem;
+}
+
+.about-paragraph strong {
+  color: var(--text-primary);
+  font-weight: 600;
+  /*
+    Bold text within paragraphs is slightly brighter — draws the eye
+    to key terms like "Data Scientist" and "ETL pipelines."
+  */
+}
+
+.about-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  /*
+    2 equal columns — creates a 2×2 grid of stat cards.
+  */
+  gap: 20px;
+}
+
+.stat-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  padding: 28px 20px;
+  text-align: center;
+  transition: var(--transition-smooth);
+}
+
+.stat-card:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-4px);
+  /*
+    On hover: brighter border + lifts 4px upward.
+    Subtle but makes the card feel interactive.
+  */
+}
+
+.stat-number {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.stat-number::after {
+  content: '+';
+  /*
+    Adds a "+" character after each number (e.g., "15+").
+    content property adds text or images via CSS.
+  */
+  font-size: 1.5rem;
+  color: var(--text-muted);
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+
+/* ============================================================
+   SKILLS SECTION
+   ============================================================ */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  /*
+    repeat(2, 1fr) = creates 2 columns, each 1fr wide.
+    Shorthand for: grid-template-columns: 1fr 1fr
+  */
+  gap: 24px;
+}
+
+.skill-category {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  padding: 32px;
+  transition: var(--transition-smooth);
+}
+
+.skill-category:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-2px);
+}
+
+.skill-category-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.skill-icon {
+  font-size: 1.5rem;
+  /*
+    Emoji icons rendered at 1.5rem size.
+  */
+}
+
+.skill-category-title {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.skill-tags {
+  display: flex;
+  flex-wrap: wrap;
+  /*
+    flex-wrap: wrap means items will wrap to the next line
+    when they don't fit on the current line.
+    Without wrap, items would squish together or overflow.
+  */
+  gap: 8px;
+}
+
+.skill-tag {
+  padding: 6px 14px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  transition: var(--transition-fast);
+}
+
+.skill-tag:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-dim);
+  /*
+    On hover: tag lights up with white text and border,
+    plus a faint white background.
+  */
+}
+
+
+/* ============================================================
+   PROJECTS SECTION
+   ============================================================ */
+.projects-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  /*
+    1fr = single column layout. Each project takes the full width.
+    For a multi-column layout, change to: repeat(2, 1fr)
+  */
+  gap: 32px;
+}
+
+.project-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  /*
+    Each project card has 2 columns: image on left, text on right.
+  */
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  /*
+    Hides the hover overlay that starts positioned outside the card.
+  */
+  transition: var(--transition-smooth);
+}
+
+.project-card:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-4px);
+}
+
+.project-card:nth-child(even) {
+  /*
+    :nth-child(even) selects every SECOND project card (2nd, 4th, etc.)
+    This reverses the layout: text on LEFT, image on RIGHT.
+    Creates a zigzag pattern that's visually interesting.
+  */
+  direction: rtl;
+  /*
+    rtl = right-to-left direction. Flips the grid columns.
+  */
+}
+
+.project-card:nth-child(even) > * {
+  direction: ltr;
+  /*
+    Resets the text direction back to left-to-right for the CONTENT
+    inside each cell. We only wanted to flip the column ORDER.
+  */
+}
+
+.project-image {
+  position: relative;
+  min-height: 280px;
+  background: var(--bg-tertiary);
+}
+
+.project-image-placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  /*
+    Centers the placeholder icon and text both vertically and horizontally.
+  */
+}
+
+.placeholder-icon {
+  font-size: 3rem;
+}
+
+.placeholder-text {
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.project-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  /*
+    A nearly-opaque black overlay that covers the image.
+  */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  opacity: 0;
+  /*
+    Starts invisible. Appears on hover.
+  */
+  transition: var(--transition-smooth);
+}
+
+.project-card:hover .project-overlay {
+  opacity: 1;
+  /*
+    When the card is hovered, the overlay fades in.
+    This reveals the action links (view project, view code).
+  */
+}
+
+.project-link {
+  width: 50px;
+  height: 50px;
+  border: 1px solid var(--border-hover);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: var(--accent);
+  transition: var(--transition-fast);
+}
+
+.project-link:hover {
+  background: var(--accent);
+  color: var(--bg-primary);
+  border-color: var(--accent);
+}
+
+.project-info {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /*
+    Vertically centers the text content within its grid cell.
+  */
+}
+
+.project-title {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+
+.project-description {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+  line-height: 1.8;
+}
+
+.project-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tech-tag {
+  padding: 4px 12px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+
+
+/* ============================================================
+   CONTACT SECTION
+   ============================================================ */
+.contact-content {
+  max-width: 600px;
+  /*
+    Limits the form width. Forms look better narrow and centered.
+  */
+}
+
+.contact-intro {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  margin-bottom: 40px;
+  line-height: 1.8;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 48px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.form-input {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  padding: 14px 18px;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  transition: var(--transition-fast);
+  outline: none;
+  /*
+    outline: none removes the default browser focus outline.
+    We'll add our own focus style below (IMPORTANT for accessibility).
+  */
+}
+
+.form-input::placeholder {
+  /*
+    ::placeholder styles the grey hint text inside input fields.
+  */
+  color: var(--text-muted);
+}
+
+.form-input:focus {
+  /*
+    :focus applies when the user clicks on or tabs to the input.
+  */
+  border-color: var(--accent);
+  /*
+    The border turns white when focused — clear visual feedback
+    showing which field the user is typing in.
+  */
+}
+
+.form-textarea {
+  resize: vertical;
+  /*
+    resize: vertical allows users to drag the textarea taller,
+    but NOT wider. Prevents them from breaking the layout.
+  */
+  min-height: 120px;
+}
+
+.btn-submit {
+  align-self: flex-start;
+  /*
+    In a flex column, this makes the button only as wide as its content,
+    aligned to the left (start). Without this, it would stretch full width.
+  */
+}
+
+.contact-links {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.contact-social-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border: 1px solid var(--border);
+  transition: var(--transition-smooth);
+}
+
+.contact-social-link:hover {
+  border-color: var(--accent);
+  background: var(--accent-dim);
+  transform: translateY(-2px);
+}
+
+.social-icon {
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--accent);
+}
+
+.social-name {
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+#footer {
+  padding: 40px 0;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+
+.footer-text {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.footer-copyright {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+}
+
+
+/* ============================================================
+   SCROLL REVEAL ANIMATIONS
+   ============================================================
+   Elements start invisible and slide up when they enter the viewport.
+   JavaScript adds the "revealed" class when they're visible.
+   ============================================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  /*
+    Multiple transitions separated by commas.
+    Both opacity and transform animate over 0.8 seconds.
+  */
+}
+
+.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+  /*
+    When JavaScript adds "revealed", the element fades in and slides up.
+  */
+}
+
+
+/* ============================================================
+   RESPONSIVE DESIGN — MEDIA QUERIES
+   ============================================================
+   Media queries let you apply CSS ONLY when certain conditions are met.
+   @media (max-width: 768px) means: "apply these styles ONLY when
+   the screen is 768px wide or narrower" (tablets and phones).
+   
+   This is how we make the site look good on ALL screen sizes.
+   ============================================================ */
+
+@media (max-width: 768px) {
+  /* --- NAVIGATION: switch to mobile hamburger menu --- */
+  .nav-toggle {
+    display: flex;
+    /*
+      Show the hamburger button on mobile.
+    */
+  }
+  
+  .nav-links {
+    display: none;
+    /*
+      Hide the horizontal nav links. They'll be shown as a
+      vertical menu when the hamburger is clicked.
+    */
+    position: absolute;
+    top: 100%;
+    /*
+      Positions the dropdown menu right below the navbar.
+    */
+    left: 0;
+    width: 100%;
+    flex-direction: column;
+    /*
+      Stack links vertically instead of horizontally.
+    */
+    background: rgba(10, 10, 10, 0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 20px 0;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+  }
+  
+  .nav-links.active {
+    display: flex;
+    /*
+      JavaScript toggles the "active" class to show/hide the menu.
+    */
+  }
+  
+  .nav-links .nav-link {
+    padding: 16px 40px;
+    /*
+      Each link gets generous padding for easy tapping on touch screens.
+      Mobile links should be at least 44px tall (Apple's guideline).
+    */
+    display: block;
+    width: 100%;
+  }
+
+  /* --- LAYOUT: stack columns vertically on mobile --- */
+  .about-grid {
+    grid-template-columns: 1fr;
+    /*
+      Switches from 2 columns to 1 column on mobile.
+      Content stacks vertically.
+    */
+    gap: 40px;
+  }
+  
+  .skills-grid {
+    grid-template-columns: 1fr;
+    /*
+      Skill categories stack in a single column.
+    */
+  }
+  
+  .project-card {
+    grid-template-columns: 1fr;
+    /*
+      Project image and text stack vertically.
+    */
+  }
+  
+  .project-card:nth-child(even) {
+    direction: ltr;
+    /*
+      Reset the zigzag layout on mobile — everything flows top to bottom.
+    */
+  }
+  
+  .project-image {
+    min-height: 200px;
+    /*
+      Slightly shorter image area on mobile.
+    */
+  }
+  
+  .project-info {
+    padding: 24px;
+    /*
+      Less padding on mobile to save space.
+    */
+  }
+
+  /* --- SPACING: reduce padding on mobile --- */
+  section {
+    padding: 80px 0;
+    /*
+      Less vertical padding on mobile (80px vs 120px on desktop).
+    */
+  }
+  
+  .section-container {
+    padding: 0 24px;
+    /*
+      Less horizontal padding (24px vs 40px).
+    */
+  }
+  
+  .nav-container {
+    padding: 0 24px;
+  }
+  
+  .hero-content {
+    padding: 0 24px;
+  }
+  
+  .contact-links {
+    flex-direction: column;
+    /*
+      Social links stack vertically on mobile.
+    */
+  }
+}
+
+@media (max-width: 480px) {
+  /*
+    Extra-small screens (small phones).
+  */
+  .about-stats {
+    grid-template-columns: 1fr;
+    /*
+      Stats go from 2×2 grid to a single column.
+    */
+  }
+  
+  .hero-cta {
+    flex-direction: column;
+    align-items: center;
+    /*
+      Buttons stack vertically on very small screens.
+    */
+  }
+  
+  .btn {
+    width: 100%;
+    justify-content: center;
+    /*
+      Buttons take full width and center their text on small screens.
+    */
+  }
+}

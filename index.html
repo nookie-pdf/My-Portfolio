@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<!--
+  LINE-BY-LINE EXPLANATION:
+  <!DOCTYPE html> tells the browser "this is an HTML5 document."
+  Without it, the browser might render things incorrectly (quirks mode).
+-->
+
+<html lang="en">
+<!--
+  <html lang="en"> is the ROOT element of the page.
+  lang="en" tells search engines and screen readers the page is in English.
+  This helps with SEO and accessibility.
+-->
+
+<head>
+  <!--
+    <head> contains META information about the page.
+    Nothing inside <head> is visible on the page itself —
+    it's instructions FOR the browser, search engines, and social media.
+  -->
+
+  <meta charset="UTF-8">
+  <!--
+    charset="UTF-8" tells the browser what character encoding to use.
+    UTF-8 supports all languages (English, Arabic, Chinese, emojis, etc.).
+    Without this, special characters might show as garbled text.
+  -->
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--
+    This is the RESPONSIVE design tag. It tells mobile browsers:
+    - width=device-width: make the page width match the device screen width
+    - initial-scale=1.0: don't zoom in or out by default
+    Without this, your site would look tiny on phones.
+  -->
+
+  <title>Portfolio | Data Science & Data Engineering</title>
+  <!--
+    <title> is what appears in the browser tab.
+    It's also what Google shows as the clickable headline in search results.
+    Keep it descriptive but concise for SEO.
+  -->
+
+  <meta name="description" content="Personal portfolio showcasing data science and data engineering projects, skills, and experience.">
+  <!--
+    This is the SEO description. Google shows this text below your title
+    in search results. It should be compelling and under 160 characters.
+  -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!--
+    "preconnect" tells the browser to START connecting to Google Fonts
+    servers early, BEFORE it actually needs the font files.
+    This speeds up font loading. crossorigin is needed for font files
+    because they're served from a different domain.
+  -->
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+  <!--
+    This loads two Google Fonts:
+    - "Inter" — a clean, modern sans-serif font (for body text, buttons)
+    - "Playfair Display" — an elegant serif font (for headings, gothic feel)
+    The numbers (300, 400, 700, etc.) are font WEIGHTS:
+      300 = light, 400 = normal, 700 = bold, 900 = black/extra-bold
+    display=swap means: show fallback text immediately, then swap in
+    the custom font when it loads (prevents invisible text).
+  -->
+
+  <link rel="stylesheet" href="style.css">
+  <!--
+    This links our external CSS file. The browser will download style.css
+    and apply all the visual rules defined there.
+    rel="stylesheet" tells the browser the relationship: it's a stylesheet.
+  -->
+</head>
+
+<body>
+  <!--
+    <body> is where ALL visible content goes.
+    Everything the user sees and interacts with is inside <body>.
+  -->
+
+  <!-- ==================== NAVIGATION ==================== -->
+  <nav id="navbar">
+    <!--
+      <nav> is a SEMANTIC HTML5 element meaning "navigation section."
+      Screen readers use it to help blind users jump to navigation.
+      id="navbar" gives it a unique identifier we can target with CSS/JS.
+    -->
+
+    <div class="nav-container">
+      <!--
+        This <div> is a generic container. We use it to control the
+        max-width and centering of the navbar content.
+        class="nav-container" lets us style it in CSS.
+      -->
+
+      <a href="#hero" class="nav-logo">
+        <!--
+          <a> is an anchor/link element.
+          href="#hero" means: when clicked, scroll to the element with id="hero"
+          class="nav-logo" lets us style this link differently from others.
+        -->
+        <span class="logo-bracket">{</span> Portfolio <span class="logo-bracket">}</span>
+        <!--
+          <span> is an inline container — it doesn't create a new line.
+          We wrap the curly braces in spans so we can color them differently
+          from the word "Portfolio" using CSS.
+        -->
+      </a>
+
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu">
+        <!--
+          This button appears on MOBILE screens (hamburger menu icon).
+          aria-label provides a text description for screen readers
+          since the button only contains visual lines, not text.
+        -->
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <!--
+          These three spans will be styled as horizontal lines
+          to create the ☰ hamburger menu icon with CSS.
+        -->
+      </button>
+
+      <ul class="nav-links" id="navLinks">
+        <!--
+          <ul> is an unordered list. Navigation links are semantically
+          a list of options, so using <ul> is correct and helps accessibility.
+        -->
+        <li><a href="#hero" class="nav-link active">Home</a></li>
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#skills" class="nav-link">Skills</a></li>
+        <li><a href="#projects" class="nav-link">Projects</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+        <!--
+          Each <li> is a list item.
+          Each <a> links to a section on the page using # (hash links).
+          The "active" class highlights which section the user is currently on.
+        -->
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ==================== HERO SECTION ==================== -->
+  <section id="hero">
+    <!--
+      <section> is a semantic element meaning "a thematic grouping of content."
+      id="hero" lets nav links scroll here and lets us style it in CSS.
+      The "hero" is the big, attention-grabbing first section visitors see.
+    -->
+
+    <div class="hero-bg-effects">
+      <!--
+        This div will contain purely decorative background effects
+        (floating particles, grid patterns) styled with CSS.
+      -->
+      <div class="grid-overlay"></div>
+      <!--
+        A CSS grid pattern overlay for that techy/gothic aesthetic.
+      -->
+      <div class="floating-particles" id="particles"></div>
+      <!--
+        Container where JavaScript will inject animated floating dots.
+      -->
+    </div>
+
+    <div class="hero-content">
+      <!--
+        The actual text content of the hero, centered on screen.
+      -->
+
+      <div class="hero-greeting">
+        <!--
+          A small text line above the main heading.
+        -->
+        <span class="greeting-line"></span>
+        <!--
+          A decorative horizontal line before the greeting text.
+          Styled as a thin white line with CSS.
+        -->
+        <span class="greeting-text">Hello, I am</span>
+      </div>
+
+      <h1 class="hero-name">
+        <!--
+          <h1> is the MAIN heading of the page. There should be only ONE <h1>
+          per page for SEO. Search engines use it to understand the page topic.
+        -->
+        <span class="name-line">Your Name</span>
+        <!--
+          Replace "Your Name" with your actual name!
+          Wrapped in a span for individual animation control.
+        -->
+      </h1>
+
+      <div class="hero-title-wrapper">
+        <!--
+          Container for the animated role/title text.
+        -->
+        <span class="hero-title-prefix">// </span>
+        <!--
+          The "//" looks like a code comment — adds to the developer aesthetic.
+        -->
+        <span class="hero-title" id="typedText"></span>
+        <!--
+          This span starts EMPTY. JavaScript will "type" text into it
+          character by character (typewriter effect).
+          id="typedText" lets JavaScript find and modify this element.
+        -->
+        <span class="cursor" id="cursor">|</span>
+        <!--
+          A blinking cursor character that appears after the typed text,
+          like a real text editor cursor. CSS makes it blink.
+        -->
+      </div>
+
+      <p class="hero-description">
+        <!--
+          <p> is a paragraph element. Used for blocks of text.
+        -->
+        Transforming raw data into actionable insights. Crafting robust
+        pipelines and intelligent models that drive decision-making.
+      </p>
+
+      <div class="hero-cta">
+        <!--
+          CTA = "Call To Action" — buttons that tell the visitor what to do next.
+        -->
+        <a href="#projects" class="btn btn-primary">
+          <!--
+            A link styled as a button. btn = base button styles,
+            btn-primary = the main/highlighted button style.
+          -->
+          <span class="btn-text">View My Work</span>
+          <span class="btn-icon">→</span>
+        </a>
+        <a href="#contact" class="btn btn-outline">
+          <!--
+            btn-outline = a button with just a border (secondary action).
+          -->
+          <span class="btn-text">Get In Touch</span>
+        </a>
+      </div>
+
+      <div class="scroll-indicator">
+        <!--
+          A small animated indicator at the bottom telling users to scroll down.
+        -->
+        <div class="scroll-line"></div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ABOUT SECTION ==================== -->
+  <section id="about">
+    <div class="section-container">
+      <!--
+        A container div to control max-width and padding of the section content.
+      -->
+
+      <div class="section-header">
+        <!--
+          Reusable header pattern for each section: number + title + line.
+        -->
+        <span class="section-number">01</span>
+        <h2 class="section-title">About Me</h2>
+        <!--
+          <h2> is a sub-heading. Hierarchy: h1 > h2 > h3, etc.
+          Good heading hierarchy is crucial for SEO and accessibility.
+        -->
+        <div class="section-line"></div>
+        <!--
+          A decorative horizontal line after the title.
+        -->
+      </div>
+
+      <div class="about-grid">
+        <!--
+          CSS Grid layout: text on one side, stats/image on the other.
+        -->
+
+        <div class="about-text">
+          <p class="about-paragraph">
+            I am a passionate <strong>Data Scientist</strong> and <strong>Data Engineer</strong>
+            with a deep fascination for uncovering patterns in complex datasets and building
+            the infrastructure that makes data accessible and actionable.
+            <!--
+              <strong> makes text bold AND tells search engines this text is important.
+              It's different from <b> which is only visual.
+            -->
+          </p>
+          <p class="about-paragraph">
+            My journey spans from designing <strong>ETL pipelines</strong> and managing
+            <strong>data warehouses</strong> to developing <strong>machine learning models</strong>
+            that solve real-world problems. I believe in clean code, reproducible research,
+            and the power of well-structured data.
+          </p>
+          <p class="about-paragraph">
+            When I'm not wrangling data, you can find me exploring new technologies,
+            contributing to open-source projects, or diving into research papers
+            on the latest advances in AI and distributed systems.
+          </p>
+        </div>
+
+        <div class="about-stats">
+          <!--
+            A grid of impressive numbers/stats about your experience.
+          -->
+          <div class="stat-card">
+            <span class="stat-number" data-target="15">0</span>
+            <!--
+              data-target="15" is a CUSTOM DATA ATTRIBUTE.
+              HTML lets you store any data with data-* attributes.
+              JavaScript reads this to know what number to count up to.
+              The displayed text starts at "0" and JS animates it to 15.
+            -->
+            <span class="stat-label">Projects<br>Completed</span>
+            <!--
+              <br> creates a line break within the text.
+            -->
+          </div>
+          <div class="stat-card">
+            <span class="stat-number" data-target="3">0</span>
+            <span class="stat-label">Years<br>Experience</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number" data-target="10">0</span>
+            <span class="stat-label">Technologies<br>Mastered</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number" data-target="5">0</span>
+            <span class="stat-label">Certifications<br>Earned</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SKILLS SECTION ==================== -->
+  <section id="skills">
+    <div class="section-container">
+
+      <div class="section-header">
+        <span class="section-number">02</span>
+        <h2 class="section-title">Skills & Tools</h2>
+        <div class="section-line"></div>
+      </div>
+
+      <div class="skills-grid">
+        <!--
+          Each skill-category is a card containing a group of related skills.
+        -->
+
+        <div class="skill-category">
+          <div class="skill-category-header">
+            <span class="skill-icon">⚡</span>
+            <!--
+              Using emoji as icons — simple and no extra library needed.
+              You could also use SVG icons or an icon library like Font Awesome.
+            -->
+            <h3 class="skill-category-title">Programming</h3>
+            <!--
+              <h3> is a sub-sub-heading under the section's <h2>.
+            -->
+          </div>
+          <div class="skill-tags">
+            <!--
+              Container for individual skill "tag" badges.
+            -->
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">SQL</span>
+            <span class="skill-tag">R</span>
+            <span class="skill-tag">Scala</span>
+            <span class="skill-tag">JavaScript</span>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <div class="skill-category-header">
+            <span class="skill-icon">🔮</span>
+            <h3 class="skill-category-title">Data Science</h3>
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag">TensorFlow</span>
+            <span class="skill-tag">PyTorch</span>
+            <span class="skill-tag">Scikit-learn</span>
+            <span class="skill-tag">Pandas</span>
+            <span class="skill-tag">NumPy</span>
+            <span class="skill-tag">NLP</span>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <div class="skill-category-header">
+            <span class="skill-icon">🏗️</span>
+            <h3 class="skill-category-title">Data Engineering</h3>
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag">Apache Spark</span>
+            <span class="skill-tag">Airflow</span>
+            <span class="skill-tag">Kafka</span>
+            <span class="skill-tag">dbt</span>
+            <span class="skill-tag">Hadoop</span>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <div class="skill-category-header">
+            <span class="skill-icon">☁️</span>
+            <h3 class="skill-category-title">Cloud & DevOps</h3>
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag">AWS</span>
+            <span class="skill-tag">GCP</span>
+            <span class="skill-tag">Docker</span>
+            <span class="skill-tag">Kubernetes</span>
+            <span class="skill-tag">Terraform</span>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <div class="skill-category-header">
+            <span class="skill-icon">🗄️</span>
+            <h3 class="skill-category-title">Databases</h3>
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag">PostgreSQL</span>
+            <span class="skill-tag">MongoDB</span>
+            <span class="skill-tag">Redis</span>
+            <span class="skill-tag">BigQuery</span>
+            <span class="skill-tag">Snowflake</span>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <div class="skill-category-header">
+            <span class="skill-icon">📊</span>
+            <h3 class="skill-category-title">Visualization</h3>
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag">Tableau</span>
+            <span class="skill-tag">Power BI</span>
+            <span class="skill-tag">Matplotlib</span>
+            <span class="skill-tag">D3.js</span>
+            <span class="skill-tag">Plotly</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PROJECTS SECTION ==================== -->
+  <section id="projects">
+    <div class="section-container">
+
+      <div class="section-header">
+        <span class="section-number">03</span>
+        <h2 class="section-title">Projects</h2>
+        <div class="section-line"></div>
+      </div>
+
+      <div class="projects-grid">
+        <!--
+          Each project-card is a complete project showcase.
+        -->
+
+        <article class="project-card">
+          <!--
+            <article> is a semantic element meaning "self-contained content."
+            A project entry is a complete piece of content, so article is correct.
+          -->
+          <div class="project-image">
+            <div class="project-image-placeholder">
+              <!--
+                Placeholder for a project screenshot.
+                Replace with an <img> tag when you have real screenshots.
+              -->
+              <span class="placeholder-icon">📈</span>
+              <span class="placeholder-text">Real-Time Analytics Dashboard</span>
+            </div>
+            <div class="project-overlay">
+              <!--
+                A dark overlay that appears on hover with action links.
+              -->
+              <a href="#" class="project-link" aria-label="View live project">
+                <span>↗</span>
+              </a>
+              <a href="#" class="project-link" aria-label="View source code">
+                <span>{ }</span>
+              </a>
+            </div>
+          </div>
+          <div class="project-info">
+            <h3 class="project-title">Real-Time Analytics Dashboard</h3>
+            <p class="project-description">
+              A streaming data pipeline processing 1M+ events/hour with
+              real-time visualization. Built with Kafka, Spark Streaming,
+              and a React frontend with D3.js charts.
+            </p>
+            <div class="project-tech">
+              <!--
+                Technology tags showing what was used to build this project.
+              -->
+              <span class="tech-tag">Kafka</span>
+              <span class="tech-tag">Spark</span>
+              <span class="tech-tag">React</span>
+              <span class="tech-tag">D3.js</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <div class="project-image">
+            <div class="project-image-placeholder">
+              <span class="placeholder-icon">🤖</span>
+              <span class="placeholder-text">NLP Sentiment Engine</span>
+            </div>
+            <div class="project-overlay">
+              <a href="#" class="project-link" aria-label="View live project">
+                <span>↗</span>
+              </a>
+              <a href="#" class="project-link" aria-label="View source code">
+                <span>{ }</span>
+              </a>
+            </div>
+          </div>
+          <div class="project-info">
+            <h3 class="project-title">NLP Sentiment Engine</h3>
+            <p class="project-description">
+              Fine-tuned transformer model achieving 94% accuracy on
+              multi-class sentiment analysis. Deployed as a REST API
+              with FastAPI and containerized with Docker.
+            </p>
+            <div class="project-tech">
+              <span class="tech-tag">PyTorch</span>
+              <span class="tech-tag">FastAPI</span>
+              <span class="tech-tag">Docker</span>
+              <span class="tech-tag">BERT</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <div class="project-image">
+            <div class="project-image-placeholder">
+              <span class="placeholder-icon">🏗️</span>
+              <span class="placeholder-text">Cloud Data Lakehouse</span>
+            </div>
+            <div class="project-overlay">
+              <a href="#" class="project-link" aria-label="View live project">
+                <span>↗</span>
+              </a>
+              <a href="#" class="project-link" aria-label="View source code">
+                <span>{ }</span>
+              </a>
+            </div>
+          </div>
+          <div class="project-info">
+            <h3 class="project-title">Cloud Data Lakehouse</h3>
+            <p class="project-description">
+              Designed and implemented a modern data lakehouse architecture
+              on AWS using Delta Lake, orchestrated with Airflow, serving
+              analytics to 200+ business users via dbt models.
+            </p>
+            <div class="project-tech">
+              <span class="tech-tag">AWS</span>
+              <span class="tech-tag">Delta Lake</span>
+              <span class="tech-tag">Airflow</span>
+              <span class="tech-tag">dbt</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CONTACT SECTION ==================== -->
+  <section id="contact">
+    <div class="section-container">
+
+      <div class="section-header">
+        <span class="section-number">04</span>
+        <h2 class="section-title">Get In Touch</h2>
+        <div class="section-line"></div>
+      </div>
+
+      <div class="contact-content">
+        <p class="contact-intro">
+          Have a project in mind, a dataset to explore, or just want to chat
+          about data? I'd love to hear from you.
+        </p>
+
+        <form class="contact-form" id="contactForm">
+          <!--
+            <form> groups input elements together. When submitted,
+            it can send data to a server. id="contactForm" lets JS handle it.
+          -->
+
+          <div class="form-group">
+            <!--
+              A container grouping a label + input together.
+            -->
+            <label for="name" class="form-label">Name</label>
+            <!--
+              <label> describes an input field. The "for" attribute MUST match
+              the input's "id" — this links them so clicking the label focuses
+              the input. Essential for accessibility.
+            -->
+            <input type="text" id="name" name="name" class="form-input"
+                   placeholder="Your name" required>
+            <!--
+              type="text" = plain text input
+              id="name" = unique identifier (matches label's "for")
+              name="name" = the key when form data is sent to server
+              placeholder = grey hint text shown when input is empty
+              required = browser won't let form submit if this is empty
+            -->
+          </div>
+
+          <div class="form-group">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" id="email" name="email" class="form-input"
+                   placeholder="your@email.com" required>
+            <!--
+              type="email" tells the browser to validate email format.
+              On mobile, it shows a keyboard with @ and .com buttons.
+            -->
+          </div>
+
+          <div class="form-group">
+            <label for="message" class="form-label">Message</label>
+            <textarea id="message" name="message" class="form-input form-textarea"
+                      placeholder="Tell me about your project..." rows="5" required></textarea>
+            <!--
+              <textarea> is for multi-line text input (unlike <input> which is single line).
+              rows="5" sets the initial visible height to 5 text lines.
+            -->
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-submit">
+            <!--
+              type="submit" makes this button submit the form when clicked.
+            -->
+            <span class="btn-text">Send Message</span>
+            <span class="btn-icon">→</span>
+          </button>
+        </form>
+
+        <div class="contact-links">
+          <!--
+            Social media / professional links.
+          -->
+          <a href="#" class="contact-social-link" aria-label="GitHub">
+            <span class="social-icon">GH</span>
+            <span class="social-name">GitHub</span>
+          </a>
+          <a href="#" class="contact-social-link" aria-label="LinkedIn">
+            <span class="social-icon">LI</span>
+            <span class="social-name">LinkedIn</span>
+          </a>
+          <a href="#" class="contact-social-link" aria-label="Twitter / X">
+            <span class="social-icon">X</span>
+            <span class="social-name">Twitter</span>
+          </a>
+          <a href="#" class="contact-social-link" aria-label="Email">
+            <span class="social-icon">@</span>
+            <span class="social-name">Email</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer id="footer">
+    <!--
+      <footer> is a semantic element for the page footer.
+      Typically contains copyright, links, and credits.
+    -->
+    <div class="footer-content">
+      <p class="footer-text">
+        Designed & Built with 🖤
+      </p>
+      <p class="footer-copyright">
+        &copy; 2025 — All rights reserved
+        <!--
+          &copy; is an HTML ENTITY that renders as ©.
+          HTML entities start with & and end with ;
+          Other examples: &amp; = &, &lt; = <, &gt; = >
+        -->
+      </p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <!--
+    This loads our JavaScript file. It's placed at the BOTTOM of <body>
+    (not in <head>) so that:
+    1. The HTML is fully loaded before JS runs
+    2. The page appears faster (JS doesn't block rendering)
+  -->
+</body>
+</html>
